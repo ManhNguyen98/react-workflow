@@ -15,14 +15,20 @@ const Card: React.FC<Props> = ({
   name,
   value,
   placeholder,
-  bgColor,
+  bgColor = '#a9b4cd',
   titleColor = '#fff',
 }) => {
   return (
     <div
+      style={{
+        backgroundColor: `${bgColor}`,
+      }}
       className={`bg-[${bgColor}] rounded-md cursor-pointer w-[200px] p-1 hover:shadow-[${bgColor}] hover:shadow-md`}
     >
-      <div className={`px-1 pb-1 text-left text-xs text-[${titleColor}]`}>
+      <div
+        style={{ color: `${titleColor}` }}
+        className={`px-1 pb-1 text-left text-xs text-[${titleColor}]`}
+      >
         {name}
       </div>
       <div className="bg-white px-1 py-0.5 text-left text-xs rounded-sm relative">
