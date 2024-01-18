@@ -1,4 +1,5 @@
 import AddBranch from './components/AddBranch'
+import AddNode from './components/AddNode'
 import Card from './components/Card'
 import { bgColors, placeHolders } from './constant'
 import { NODE_TYPE, WorkFlow } from './type'
@@ -24,6 +25,7 @@ const Flow: React.FC<Props> = ({ node }) => {
           placeholder={placeHolders[node.type]}
           bgColor={bgColors[node.type]}
         />
+        <AddNode />
       </div>
     )
   }
@@ -53,7 +55,7 @@ const Flow: React.FC<Props> = ({ node }) => {
               )
             })}
           </div>
-          {/* <AddNode childNodeP={config.childNode} changeEvent={changeConfig} /> */}
+          <AddNode />
         </div>
       </div>
     )
