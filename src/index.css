@@ -1,0 +1,45 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+.editor {
+  width: 100%;
+  background-color: #f5f5f7;
+  overflow: auto;
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  top: 0
+}
+
+.box-scale {
+  transform: scale(1);
+  display: inline-block;
+  position: relative;
+  width: 100%;
+  -webkit-box-align: start;
+  -ms-flex-align: start;
+  align-items: flex-start;
+  -webkit-box-pack: center;
+  -ms-flex-pack: center;
+  justify-content: center;
+  -ms-flex-wrap: wrap;
+  flex-wrap: wrap;
+  min-width: -webkit-min-content;
+  min-width: -moz-min-content;
+  min-width: min-content;
+  background-color: #f5f5f7;
+  transform-origin: 50% 0px 0px;
+  padding: 50px 0;
+}
+
+.flow-wrap {
+  display: inline-flex;
+  width: 100%;
+  flex-direction: column;
+  justify-self: start;
+  align-items: center;
+  flex-wrap: wrap;
+  padding: 0 50px;
+}
