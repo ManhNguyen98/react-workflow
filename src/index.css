@@ -2,6 +2,16 @@
 @tailwind components;
 @tailwind utilities;
 
+.backdrop {
+  position: fixed;
+  left: -100vw;
+  right: -100vw;
+  top: -100vh;
+  bottom: -100vh;
+  z-index: 20;
+  touch-action: none;
+}
+
 .editor {
   width: 100%;
   background-color: #f5f5f7;
@@ -42,4 +52,252 @@
   align-items: center;
   flex-wrap: wrap;
   padding: 0 50px;
+}
+
+.branch-wrap {
+  display: inline-flex;
+  width: 100%;
+}
+
+.branch-box-wrap {
+  display: flex;
+  flex-direction: column;
+  flex-wrap: wrap;
+  align-items: center;
+  min-height: 270px;
+  width: 100%;
+  flex-shrink: 0;
+}
+
+.branch-box {
+  display: flex;
+  overflow: visible;
+  min-height: 180px;
+  height: auto;
+  border-bottom: 2px solid #ccc;
+  border-top: 2px solid #ccc;
+  position: relative;
+  margin-top: 15px;
+}
+
+.col-box {
+  display: inline-flex;
+  flex-direction: column;
+  align-items: center;
+  position: relative;
+  background-color: #f5f5f7;
+}
+
+.col-box:before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 0;
+  margin: auto;
+  width: 2px;
+  height: 100%;
+  background-color: #cacaca;
+}
+
+.add-branch {
+  border: none;
+  outline: none;
+  user-select: none;
+  justify-content: center;
+  padding: 0 10px;
+  height: 30px;
+  line-height: 30px;
+  position: absolute;
+  top: -16px;
+  left: 50%;
+  transform: translateX(-50%);
+  transform-origin: center center;
+  cursor: pointer;
+  z-index: 1;
+  display: inline-flex;
+  align-items: center;
+}
+
+.condition-node {
+  display: inline-flex;
+  flex-direction: column;
+  align-items: center;
+  position: relative;
+  min-height: 200px;
+}
+
+.condition-node-box-wrap {
+  display: inline-flex;
+  flex-direction: column;
+  padding-top: 30px;
+  padding-right: 50px;
+  padding-left: 50px;
+  justify-content: center;
+  align-items: center;
+  flex-grow: 1;
+  position: relative;
+}
+
+.condition-node-box-wrap:before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  margin: auto;
+  width: 2px;
+  height: 100%;
+  background-color: #cacaca;
+}
+
+.condition-node-box {
+  width: 200px;
+  z-index: 1;
+}
+
+.add-node-btn-box {
+  width: 240px;
+  display: inline-flex;
+  flex-shrink: 0;
+  position: relative;
+}
+
+.add-node-btn-box:before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: -1;
+  margin: auto;
+  width: 2px;
+  height: 100%;
+  background-color: #cacaca;
+}
+
+.add-node-btn {
+  display: flex;
+  user-select: none;
+  width: 240px;
+  padding: 32px 0 32px;
+  justify-content: center;
+  flex-shrink: 0;
+  flex-grow: 1;
+}
+
+.add-node-btn button {
+  outline: none;
+  border: none;
+  position: relative;
+}
+
+.add-node-menu {
+  position: absolute;
+  right: 12px;
+  background-color: #fff;
+  padding: 8px;
+  border-radius: 8px;
+  box-shadow: 0 0 8px 0 #ccc;
+  z-index: 100;
+  transform: translateX(50%);
+  transform-origin: center center;
+}
+
+.add-node-menu-box {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  align-items: start;
+  z-index: 100;
+  position: relative;
+}
+
+.add-node-menu-box button {
+  padding: 4px 8px;
+  cursor: pointer;
+  width: 100%;
+  border-radius: 4px;
+  text-align: left;
+}
+
+.add-node-menu-box button:hover {
+  background-color: #091F340A;
+}
+
+.flow-wrap-box {
+  display: inline-flex;
+  flex-direction: column;
+  position: relative;
+  width: 200px;
+  flex-shrink: 0;
+  background: #fff;
+  border-radius: 4px;
+  cursor: pointer
+}
+
+.flow-wrap-box:before,
+.end-node::before {
+  content: "";
+  position: absolute;
+  top: -12px;
+  left: 50%;
+  -webkit-transform: translateX(-50%);
+  transform: translateX(-50%);
+  width: 0;
+  height: 4px;
+  border-style: solid;
+  border-width: 8px 6px 4px;
+  border-color: #cacaca transparent transparent;
+  background: #f5f5f7;
+}
+
+.flow-wrap-box.start-node:before {
+  content: none
+}
+
+.end-node {
+  display: inline-flex;
+  flex-direction: column;
+  position: relative;
+  width: 200px;
+  flex-shrink: 0;
+}
+
+.top-left-cover-line {
+  left: -1px
+}
+
+.top-left-cover-line,
+.top-right-cover-line {
+  position: absolute;
+  height: 8px;
+  width: 50%;
+  background-color: #f5f5f7;
+  top: -4px
+}
+
+.top-right-cover-line {
+  right: -1px
+}
+
+.bottom-left-cover-line {
+  left: -1px
+}
+
+.bottom-left-cover-line,
+.bottom-right-cover-line {
+  position: absolute;
+  height: 8px;
+  width: 50%;
+  background-color: #f5f5f7;
+  bottom: -4px
+}
+
+.bottom-right-cover-line {
+  right: -1px;
 }

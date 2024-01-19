@@ -23,7 +23,7 @@ const Card: React.FC<Props> = ({
       style={{
         backgroundColor: `${bgColor}`,
       }}
-      className={`bg-[${bgColor}] rounded-md cursor-pointer w-[200px] p-1 hover:shadow-[${bgColor}] hover:shadow-md`}
+      className={`bg-[${bgColor}] w-full rounded-md cursor-pointer p-1 hover:shadow-[${bgColor}] hover:shadow-md z-10`}
     >
       <div
         style={{ color: `${titleColor}` }}

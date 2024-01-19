@@ -1,14 +1,22 @@
-import { NODE_TYPE, WorkFlow } from './type'
+import {
+  EXAMINE_MODE,
+  NODE_TYPE,
+  NO_HANDLER_ACTION,
+  SELECT_MODE,
+  SELECT_RANGE,
+  SET_TYPE,
+  WorkFlow,
+} from './type'
 
 export const WF_INIT_DATA: WorkFlow = {
   tableId: 1, //审批id
   workFlowDef: {
-    name: '合同审批', //审批名称
+    name: 'Test', //审批名称
   },
   directorMaxLevel: 4, //审批主管最大层级
   flowPermission: [], //发起人
   nodeConfig: {
-    nodeName: '发起人', //节点名称
+    nodeName: 'Submit', //节点名称
     type: 0, // 0 发起人 1审批 2抄送 3条件 4路由
     priorityLevel: '', // 条件优先级
     setType: '', // 审批人设置 1指定成员 2主管 4发起人自选 5发起人自己 7连续多级主管
@@ -22,7 +30,7 @@ export const WF_INIT_DATA: WorkFlow = {
     conditionList: [], //当审批单同时满足以下条件时进入此流程
     nodeUserList: [], //操作人
     childNode: {
-      nodeName: '审核人',
+      nodeName: 'Approval',
       error: false, //当前审批是否通过校验
       type: 1,
       setType: 2,
@@ -47,7 +55,7 @@ export const WF_INIT_DATA: WorkFlow = {
         conditionList: [],
         nodeUserList: [],
         childNode: {
-          nodeName: '抄送人',
+          nodeName: 'CC',
           type: 2,
           ccSelfSelectFlag: 1,
           childNode: null,
@@ -57,7 +65,7 @@ export const WF_INIT_DATA: WorkFlow = {
         conditionNodes: [
           {
             //条件节点
-            nodeName: '条件1',
+            nodeName: 'Condition 1',
             type: 3,
             priorityLevel: 1,
             setType: 1,
@@ -93,7 +101,7 @@ export const WF_INIT_DATA: WorkFlow = {
               },
             ],
             childNode: {
-              nodeName: '审核人',
+              nodeName: 'Approval',
               type: 1,
               priorityLevel: 1,
               setType: 1,
@@ -120,7 +128,7 @@ export const WF_INIT_DATA: WorkFlow = {
             error: false,
           },
           {
-            nodeName: '条件2',
+            nodeName: 'Condition 2',
             type: 3,
             priorityLevel: 2,
             setType: 1,
@@ -161,4 +169,39 @@ export const placeHolders = {
   [NODE_TYPE.HANDLER]: 'Set Handler',
   [NODE_TYPE.CONDITIONS]: 'Set conditions',
   [NODE_TYPE.ROUTING]: '',
+}
+
+export const nodeNames = {
+  [NODE_TYPE.INITIATOR]: 'Submit',
+  [NODE_TYPE.APPROVAL]: 'Approval',
+  [NODE_TYPE.FORWARD]: 'CC',
+  [NODE_TYPE.HANDLER]: 'Handle',
+  [NODE_TYPE.CONDITIONS]: 'Condition',
+  [NODE_TYPE.ROUTING]: 'Conditional branch',
+}
+
+export const defaultNodes = {
+  [NODE_TYPE.APPROVAL]: {
+    nodeName: nodeNames[NODE_TYPE.APPROVAL],
+    type: NODE_TYPE.APPROVAL,
+    setType: SET_TYPE.SpecificMember,
+    selectMode: SELECT_MODE.None,
+    selectRange: SELECT_RANGE.None,
+    directorLevel: 1,
+    examineMode: EXAMINE_MODE.Sequential,
+    noHandlerAction: NO_HANDLER_ACTION.Auto,
+    examineEndDirectorLevel: 0,
+    nodeUserList: [],
+  },
+  [NODE_TYPE.FORWARD]: {
+    nodeName: nodeNames[NODE_TYPE.FORWARD],
+    type: NODE_TYPE.FORWARD,
+    ccSelfSelectFlag: 1,
+    nodeUserList: [],
+  },
+  [NODE_TYPE.HANDLER]: {
+    nodeName: nodeNames[NODE_TYPE.FORWARD],
+    type: NODE_TYPE.HANDLER,
+    nodeUserList: [],
+  },
 }

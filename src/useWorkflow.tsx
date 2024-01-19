@@ -1,23 +1,40 @@
 /* eslint-disable react-refresh/only-export-components */
 import { ReactNode, createContext, useContext, useReducer } from 'react'
 import { WF_INIT_DATA } from './constant'
-import { WorkFlow } from './type'
+import { NodeConfig, WorkFlow } from './type'
+import { updateObject } from './utils'
 
 interface StateContextType extends WorkFlow {}
+interface ControlContextType {
+  updateNode: (node: NodeConfig) => void
+}
 
 const StateContext = createContext<StateContextType>({})
-const ControlContext = createContext({})
+const ControlContext = createContext<ControlContextType | undefined>(undefined)
 
 interface Props {
   children: ReactNode
 }
 
-function reducer(state: WorkFlow) {
-  return state
+function reducer(
+  state: WorkFlow,
+  action: { type: string; payload: NodeConfig | undefined }
+) {
+  switch (action.type) {
+    case 'update_node': {
+      return updateObject(state, { nodeConfig: action.payload })
+    }
+    default:
+      return state
+  }
 }
 export const WorkflowProvider: React.FC<Props> = ({ children }) => {
-  const [state] = useReducer(reducer, WF_INIT_DATA)
-  const methods = {}
+  const [state, dispatch] = useReducer(reducer, WF_INIT_DATA)
+
+  const methods = {
+    updateNode: (node: NodeConfig) =>
+      dispatch({ type: 'update_node', payload: node }),
+  }
 
   return (
     <StateContext.Provider value={state}>

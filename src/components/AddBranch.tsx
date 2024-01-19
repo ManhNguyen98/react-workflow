@@ -1,6 +1,9 @@
-const AddBranch = () => {
+interface Props {
+  onClick: () => void
+}
+const AddBranch: React.FC<Props> = ({ onClick }) => {
   return (
-    <button className="bg-white shadow-md text-[10px] text-[#3370ff] px-2 py-1 rounded-2xl">
+    <button className="add-branch bg-white shadow-md text-[10px] text-[#3370ff] px-2 py-1 rounded-2xl hover:shadow-md" onClick={() => onClick()}>
       <div className="flex gap-1 items-center">
         <svg
           width="12px"
