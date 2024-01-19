@@ -3,7 +3,7 @@ interface Props {
 }
 const AddBranch: React.FC<Props> = ({ onClick }) => {
   return (
-    <button className="add-branch bg-white shadow-md text-[10px] text-[#3370ff] px-2 py-1 rounded-2xl hover:shadow-md" onClick={() => onClick()}>
+    <button className="add-branch" onClick={() => onClick()}>
       <div className="flex gap-1 items-center">
         <svg
           width="12px"

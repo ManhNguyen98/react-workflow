@@ -29,108 +29,23 @@ export const WF_INIT_DATA: WorkFlow = {
     ccSelfSelectFlag: '', //允许发起人自选抄送人
     conditionList: [], //当审批单同时满足以下条件时进入此流程
     nodeUserList: [], //操作人
-    childNode: {
-      nodeName: 'Approval',
-      error: false, //当前审批是否通过校验
-      type: 1,
-      setType: 2,
-      selectMode: 0,
-      selectRange: 0,
-      directorLevel: 1,
-      examineMode: 1,
-      noHandlerAction: 2,
-      examineEndDirectorLevel: 0,
-      childNode: {
-        nodeName: '路由',
-        type: 4,
-        priorityLevel: 1,
-        setType: 1,
+    childNode: [
+      {
+        nodeName: 'Approval',
+        error: false, //当前审批是否通过校验
+        type: 1,
+        setType: 2,
         selectMode: 0,
         selectRange: 0,
         directorLevel: 1,
         examineMode: 1,
         noHandlerAction: 2,
-        examineEndDirectorLevel: 1,
-        ccSelfSelectFlag: 1,
-        conditionList: [],
-        nodeUserList: [],
-        childNode: {
-          nodeName: 'CC',
-          type: 2,
-          ccSelfSelectFlag: 1,
-          childNode: null,
-          nodeUserList: [],
-          error: false,
-        },
-        conditionNodes: [
+        examineEndDirectorLevel: 0,
+        childNode: [
           {
-            //条件节点
-            nodeName: 'Condition 1',
-            type: 3,
+            nodeName: 'Routing',
+            type: 4,
             priorityLevel: 1,
-            setType: 1,
-            selectMode: 0,
-            selectRange: 0,
-            directorLevel: 1,
-            examineMode: 1,
-            noHandlerAction: 2,
-            examineEndDirectorLevel: 1,
-            ccSelfSelectFlag: 1,
-            conditionList: [
-              {
-                //当前条件
-                columnId: 0, //发起人
-                type: 1, //1 发起人 2其他
-                optType: '', //["", "<", ">", "≤", "=", "≥"][optType]
-                zdy1: '', //左侧自定义内容
-                zdy2: '', //右侧自定义内容
-                opt1: '', //左侧符号 < ≤
-                opt2: '', //右侧符号 < ≤
-                columnDbname: '', //条件字段名称
-                columnType: '', //条件字段类型
-                showType: '', //3多选 其他
-                showName: '', //展示名
-                fixedDownBoxValue: '', //多选数组
-              },
-            ],
-            nodeUserList: [
-              {
-                targetId: 85,
-                type: 1,
-                name: '天旭',
-              },
-            ],
-            childNode: {
-              nodeName: 'Approval',
-              type: 1,
-              priorityLevel: 1,
-              setType: 1,
-              selectMode: 0,
-              selectRange: 0,
-              directorLevel: 1,
-              examineMode: 1,
-              noHandlerAction: 2,
-              examineEndDirectorLevel: 1,
-              ccSelfSelectFlag: 1,
-              conditionList: [],
-              nodeUserList: [
-                {
-                  targetId: 2515744,
-                  type: 1,
-                  name: '哈哈哈哈',
-                },
-              ],
-              childNode: null,
-              conditionNodes: [],
-              error: false,
-            },
-            conditionNodes: [],
-            error: false,
-          },
-          {
-            nodeName: 'Condition 2',
-            type: 3,
-            priorityLevel: 2,
             setType: 1,
             selectMode: 0,
             selectRange: 0,
@@ -141,14 +56,114 @@ export const WF_INIT_DATA: WorkFlow = {
             ccSelfSelectFlag: 1,
             conditionList: [],
             nodeUserList: [],
-            childNode: null,
-            conditionNodes: [],
-            error: false,
+            childNode: [
+              {
+                nodeName: 'CC',
+                type: 2,
+                ccSelfSelectFlag: 1,
+                childNode: null,
+                nodeUserList: [],
+                error: false,
+              },
+            ],
+            conditionNodes: [
+              {
+                //条件节点
+                nodeName: 'Condition 1',
+                type: 3,
+                priorityLevel: 1,
+                setType: 1,
+                selectMode: 0,
+                selectRange: 0,
+                directorLevel: 1,
+                examineMode: 1,
+                noHandlerAction: 2,
+                examineEndDirectorLevel: 1,
+                ccSelfSelectFlag: 1,
+                conditionList: [
+                  {
+                    //当前条件
+                    columnId: 0, //发起人
+                    type: 1, //1 发起人 2其他
+                    optType: '', //["", "<", ">", "≤", "=", "≥"][optType]
+                    zdy1: '', //左侧自定义内容
+                    zdy2: '', //右侧自定义内容
+                    opt1: '', //左侧符号 < ≤
+                    opt2: '', //右侧符号 < ≤
+                    columnDbname: '', //条件字段名称
+                    columnType: '', //条件字段类型
+                    showType: '', //3多选 其他
+                    showName: '', //展示名
+                    fixedDownBoxValue: '', //多选数组
+                  },
+                ],
+                nodeUserList: [
+                  {
+                    targetId: 85,
+                    type: 1,
+                    name: '天旭',
+                  },
+                ],
+                childNode: [
+                  {
+                    nodeName: 'Approval',
+                    type: 1,
+                    priorityLevel: 1,
+                    setType: 1,
+                    selectMode: 0,
+                    selectRange: 0,
+                    directorLevel: 1,
+                    examineMode: 1,
+                    noHandlerAction: 2,
+                    examineEndDirectorLevel: 1,
+                    ccSelfSelectFlag: 1,
+                    conditionList: [],
+                    nodeUserList: [
+                      {
+                        targetId: 2515744,
+                        type: 1,
+                        name: '哈哈哈哈',
+                      },
+                    ],
+                    childNode: null,
+                    conditionNodes: [],
+                    error: false,
+                  },
+                ],
+                conditionNodes: [],
+                error: false,
+              },
+              {
+                nodeName: 'Condition 2',
+                type: 3,
+                priorityLevel: 2,
+                setType: 1,
+                selectMode: 0,
+                selectRange: 0,
+                directorLevel: 1,
+                examineMode: 1,
+                noHandlerAction: 2,
+                examineEndDirectorLevel: 1,
+                ccSelfSelectFlag: 1,
+                conditionList: [],
+                nodeUserList: [],
+                childNode: null,
+                conditionNodes: [],
+                error: false,
+              },
+            ],
           },
         ],
+        nodeUserList: [],
       },
-      nodeUserList: [],
-    },
+      // {
+      //   nodeName: 'Approval copy',
+      //   type: NODE_TYPE.APPROVAL,
+      //   childNode: null,
+      //   error: false,
+      //   nodeUserList: [],
+      // },
+    ],
     conditionNodes: [],
   },
 }
@@ -200,7 +215,7 @@ export const defaultNodes = {
     nodeUserList: [],
   },
   [NODE_TYPE.HANDLER]: {
-    nodeName: nodeNames[NODE_TYPE.FORWARD],
+    nodeName: nodeNames[NODE_TYPE.HANDLER],
     type: NODE_TYPE.HANDLER,
     nodeUserList: [],
   },

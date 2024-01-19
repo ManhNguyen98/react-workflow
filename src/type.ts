@@ -1,5 +1,10 @@
 export type EmptyType<T> = T | ''
 
+export enum ADD_TYPE {
+  Sequential,
+  Parallel,
+}
+
 export enum NODE_TYPE {
   INITIATOR = 0,
   APPROVAL = 1,
@@ -59,7 +64,7 @@ export interface NodeConfig {
   conditionList?: Condition[]
   nodeUserList: User[]
   conditionNodes?: NodeConfig[]
-  childNode: NodeConfig | null
+  childNode: NodeConfig[] | null
   error?: boolean
 }
 

@@ -17,13 +17,15 @@ const Editor = () => {
           className="box-scale"
           style={{ transform: `scale(${size / 100})` }}
         >
-          <Flow node={nodeConfig} updateNode={updateNode} />
-          <div className="end-node">
-            <Card
-              name="End"
-              placeholder="Choose to set notification"
-              bgColor="#a9b4cd"
-            />
+          <div className="flow-box">
+            <Flow node={nodeConfig} updateNode={updateNode} />
+            <div className="end-node">
+              <Card
+                name="End"
+                placeholder="Choose to set notification"
+                bgColor="#a9b4cd"
+              />
+            </div>
           </div>
         </div>
       </div>

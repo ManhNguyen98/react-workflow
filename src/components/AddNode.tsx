@@ -1,83 +1,35 @@
-import { useRef, useState } from 'react'
-import useVirtualBackdrop from '../useVirtualBackdrop'
-import useCaptureEscKey from '../useCaptureEscKey'
-import { NODE_TYPE, NodeConfig } from '../type'
-import { defaultNodes, nodeNames } from '../constant'
-import { updateObject } from '../utils'
+import { useState } from 'react'
+import { nodeNames } from '../constant'
+import { ADD_TYPE, NODE_TYPE, NodeConfig } from '../type'
+import AddNodePopover from './AddNodePopover'
 
 interface Props {
-  childNode: NodeConfig | null
+  root: NodeConfig
+  childNode: NodeConfig[] | null
   updateNode: (node: NodeConfig) => void
 }
 
-const AddNode: React.FC<Props> = ({ childNode, updateNode }) => {
+const AddNode: React.FC<Props> = ({ root, childNode, updateNode }) => {
+  console.log('🚀 ~ root:', root)
   const [isOpenMenu, setIsOpenMenu] = useState(false)
-  const menuRef = useRef(null)
 
   const handleSelectNode = (
-    type: Exclude<NODE_TYPE, NODE_TYPE.CONDITIONS | NODE_TYPE.INITIATOR>
+    type: ADD_TYPE,
+    nodeType: Exclude<NODE_TYPE, NODE_TYPE.CONDITIONS | NODE_TYPE.INITIATOR>
   ) => {
     setIsOpenMenu(false)
-    let newNode
-    if (type === NODE_TYPE.ROUTING) {
-      newNode = updateObject(newNode, {
-        nodeNames: nodeNames[type],
-        type,
-        childNode: null,
-        conditionNodes: [
-          {
-            nodeName: 'Condition 1',
-            type: NODE_TYPE.CONDITIONS,
-            priorityLevel: 1,
-            conditionList: [],
-            nodeUserList: [],
-            childNode,
-          },
-          {
-            nodeName: 'Condition 2',
-            type: NODE_TYPE.CONDITIONS,
-            priorityLevel: 2,
-            conditionList: [],
-            nodeUserList: [],
-            childNode: null,
-          },
-        ],
-      })
-    } else {
-      newNode = { ...(defaultNodes[type] || {}), childNode }
+    const newNode = {
+      nodeName: nodeNames[nodeType],
+      type: nodeType,
+      nodeUserList: [],
+      childNode: null,
     }
-
-    updateNode(newNode)
+    const newRoot: NodeConfig =
+      type === ADD_TYPE.Parallel
+        ? { ...root, childNode: [...(childNode || []), newNode] }
+        : { ...root, childNode: [{ ...newNode, childNode }] }
+    updateNode(newRoot)
   }
-
-  const renderMenu = () => {
-    const options: Exclude<
-      NODE_TYPE,
-      NODE_TYPE.CONDITIONS | NODE_TYPE.INITIATOR
-    >[] = [
-      NODE_TYPE.APPROVAL,
-      NODE_TYPE.FORWARD,
-      NODE_TYPE.HANDLER,
-      NODE_TYPE.ROUTING,
-    ]
-    if (!isOpenMenu) return null
-    return (
-      <div className="add-node-menu" ref={menuRef}>
-        <div className="backdrop" onMouseDown={(e) => e.preventDefault()} />
-        <div className="add-node-menu-box">
-          {options.map((type) => (
-            <button key={type} onClick={() => handleSelectNode(type)}>
-              {nodeNames[type]}
-            </button>
-          ))}
-        </div>
-      </div>
-    )
-  }
-
-  useVirtualBackdrop(isOpenMenu, menuRef, () => setIsOpenMenu(false))
-
-  useCaptureEscKey(isOpenMenu, () => setIsOpenMenu(false))
 
   return (
     <div className="add-node-btn-box">
@@ -106,7 +58,11 @@ const AddNode: React.FC<Props> = ({ childNode, updateNode }) => {
             ></path>
           </svg>
         </button>
-        {renderMenu()}
+        <AddNodePopover
+          isOpen={isOpenMenu}
+          onClose={() => setIsOpenMenu(false)}
+          onAddNode={handleSelectNode}
+        />
       </div>
     </div>
   )
