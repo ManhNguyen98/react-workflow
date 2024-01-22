@@ -10,24 +10,82 @@ interface Props {
 }
 
 const AddNode: React.FC<Props> = ({ root, childNode, updateNode }) => {
-  console.log('🚀 ~ root:', root)
   const [isOpenMenu, setIsOpenMenu] = useState(false)
 
   const handleSelectNode = (
     type: ADD_TYPE,
-    nodeType: Exclude<NODE_TYPE, NODE_TYPE.CONDITIONS | NODE_TYPE.INITIATOR>
+    nodeType: Exclude<NODE_TYPE, NODE_TYPE.INITIATOR>
   ) => {
     setIsOpenMenu(false)
-    const newNode = {
-      nodeName: nodeNames[nodeType],
-      type: nodeType,
-      nodeUserList: [],
-      childNode: null,
-    }
+    const newNode =
+      nodeType === NODE_TYPE.ROUTING
+        ? {
+            nodeName: 'Routing',
+            type: 4,
+            priorityLevel: 1,
+            setType: 1,
+            selectMode: 0,
+            selectRange: 0,
+            directorLevel: 1,
+            examineMode: 1,
+            noHandlerAction: 2,
+            examineEndDirectorLevel: 1,
+            ccSelfSelectFlag: 1,
+            conditionList: [],
+            nodeUserList: [],
+            childNode: null,
+            conditionNodes: [
+              {
+                nodeName: 'Condition 1',
+                type: 3,
+                priorityLevel: 1,
+                setType: 1,
+                selectMode: 0,
+                selectRange: 0,
+                directorLevel: 1,
+                examineMode: 1,
+                noHandlerAction: 2,
+                examineEndDirectorLevel: 1,
+                ccSelfSelectFlag: 1,
+                conditionList: [],
+                nodeUserList: [],
+                childNode: type === ADD_TYPE.Sequential ? childNode : null,
+                conditionNodes: [],
+                error: false,
+              },
+              {
+                nodeName: 'Condition 2',
+                type: 3,
+                priorityLevel: 2,
+                setType: 1,
+                selectMode: 0,
+                selectRange: 0,
+                directorLevel: 1,
+                examineMode: 1,
+                noHandlerAction: 2,
+                examineEndDirectorLevel: 1,
+                ccSelfSelectFlag: 1,
+                conditionList: [],
+                nodeUserList: [],
+                childNode: null,
+                conditionNodes: [],
+                error: false,
+              },
+            ],
+          }
+        : {
+            nodeName: nodeNames[nodeType],
+            type: nodeType,
+            nodeUserList: [],
+            childNode,
+          }
     const newRoot: NodeConfig =
       type === ADD_TYPE.Parallel
-        ? { ...root, childNode: [...(childNode || []), newNode] }
-        : { ...root, childNode: [{ ...newNode, childNode }] }
+        ? {
+            ...root,
+            childNode: [...(childNode || []), { ...newNode, childNode: null }],
+          }
+        : { ...root, childNode: [newNode] }
     updateNode(newRoot)
   }
 

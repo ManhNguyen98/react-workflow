@@ -12,15 +12,32 @@ interface Props {
 const Flow: React.FC<Props> = ({ node, updateNode }) => {
   if (!node) return null
 
-  const updateChildNode = (childNode: NodeConfig, index?: number) => {
+  const updateChildNode = (
+    newNode: NodeConfig,
+    index?: number,
+    indexChild?: number
+  ) => {
     if (typeof index === 'number') {
       const { conditionNodes } = node
-      if (conditionNodes) {
-        conditionNodes[index].childNode = [childNode]
+      if (conditionNodes && conditionNodes.length) {
+        if (newNode.type === NODE_TYPE.CONDITIONS) {
+          conditionNodes[index] = newNode
+        } else {
+          conditionNodes[index].childNode![indexChild!] = newNode
+        }
         updateNode({ ...node, conditionNodes })
+      } else {
+        if (typeof indexChild === 'number') {
+          node.childNode![indexChild] = newNode
+          updateNode({ ...node, childNode: node.childNode })
+        }
       }
     } else {
-      updateNode({ ...node, childNode: [childNode] })
+      if (newNode.type === NODE_TYPE.INITIATOR) {
+        updateNode(newNode)
+      } else {
+        updateNode({ ...node, childNode: [newNode] })
+      }
     }
   }
 
@@ -39,16 +56,51 @@ const Flow: React.FC<Props> = ({ node, updateNode }) => {
     }
   }
 
-  const addNodeParallel = () => {
-    if (node.childNode) {
-      node.childNode.push({
-        nodeName: 'Approval',
-        type: NODE_TYPE.APPROVAL,
-        childNode: null,
-        nodeUserList: [],
-      })
-      updateNode(node)
+  const renderConditionChild = (nodes: NodeConfig[] | null, index: number) => {
+    if (!nodes || !nodes.length) return null
+    if (nodes.length === 1) {
+      return (
+        <Flow
+          node={nodes[0]}
+          updateNode={(node) => {
+            updateChildNode(node, index, 0)
+          }}
+        />
+      )
     }
+    return (
+      <div className="parallel-wrap">
+        <div className="parallel-box-wrap">
+          <div className="parallel-box">
+            {nodes.map((node, indexChild) => (
+              <div className="col-box" key={indexChild}>
+                <div className="py-10">
+                  <Flow
+                    node={node}
+                    updateNode={(newNode) =>
+                      updateChildNode(newNode, index, indexChild)
+                    }
+                  />
+                </div>
+                {indexChild == 0 ? (
+                  <>
+                    <div className="top-left-cover-line"></div>
+                    <div className="bottom-left-cover-line"></div>
+                  </>
+                ) : null}
+                {indexChild == nodes.length - 1 ? (
+                  <>
+                    <div className="top-right-cover-line"></div>
+                    <div className="bottom-right-cover-line"></div>
+                  </>
+                ) : null}
+              </div>
+            ))}
+          </div>
+          <div style={{ padding: '30px 0' }} />
+        </div>
+      </div>
+    )
   }
 
   const getNode = (node: NodeConfig) => {
@@ -104,17 +156,7 @@ const Flow: React.FC<Props> = ({ node, updateNode }) => {
                           />
                         </div>
                       </div>
-                      {item.childNode
-                        ? item.childNode.map((item, index) => (
-                            <Flow
-                              key={index}
-                              node={item}
-                              updateNode={(node) =>
-                                updateChildNode(node, index)
-                              }
-                            />
-                          ))
-                        : null}
+                      {renderConditionChild(item.childNode, index)}
                       {index == 0 ? (
                         <>
                           <div className="top-left-cover-line"></div>
@@ -135,7 +177,7 @@ const Flow: React.FC<Props> = ({ node, updateNode }) => {
               <AddNode
                 root={node}
                 childNode={node.childNode}
-                updateNode={(node) => updateChildNode(node)}
+                updateNode={updateNode}
               />
             </div>
           </div>
@@ -154,13 +196,13 @@ const Flow: React.FC<Props> = ({ node, updateNode }) => {
       <div className="parallel-wrap">
         <div className="parallel-box-wrap">
           <div className="parallel-box">
-            <button className="add-branch" onClick={addNodeParallel}>
-              Add parallel
-            </button>
             {node.childNode?.map((item, index) => (
               <div className="col-box" key={index}>
                 <div className="py-10">
-                  <Flow node={item} updateNode={updateChildNode} />
+                  <Flow
+                    node={item}
+                    updateNode={(node) => updateChildNode(node, 0, index)}
+                  />
                 </div>
                 {index == 0 ? (
                   <>
@@ -177,11 +219,7 @@ const Flow: React.FC<Props> = ({ node, updateNode }) => {
               </div>
             ))}
           </div>
-          <AddNode
-            root={node}
-            childNode={node.childNode}
-            updateNode={(node) => updateChildNode(node)}
-          />
+          <div className="add-node-btn-box" style={{ padding: '30px 0' }}></div>
         </div>
       </div>
     )
