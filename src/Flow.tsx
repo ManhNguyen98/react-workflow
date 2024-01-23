@@ -7,16 +7,54 @@ import { NODE_TYPE, NodeConfig } from './type'
 
 interface Props {
   node?: NodeConfig
-  updateNode: (node: NodeConfig) => void
+  updateNode: (node: NodeConfig | null) => void
 }
 const Flow: React.FC<Props> = ({ node, updateNode }) => {
   if (!node) return null
 
   const updateChildNode = (
-    newNode: NodeConfig,
+    newNode: NodeConfig | null,
     index?: number,
     indexChild?: number
   ) => {
+    console.log('🚀 ~ indexChild:', indexChild)
+    console.log('🚀 ~ index:', index)
+    console.log('🚀 ~ newNode:', newNode)
+    console.log('🚀 ~ node:', node)
+    if (!newNode) {
+      // Handle delete node
+      if (index === undefined && indexChild === undefined) {
+        node.childNode = null
+      }
+      if (typeof index === 'number' && typeof indexChild === 'number') {
+        if (node.type === NODE_TYPE.ROUTING) {
+          const { conditionNodes } = node
+          if (conditionNodes) {
+            conditionNodes[index]?.childNode?.splice(indexChild, 1)
+            node.conditionNodes = conditionNodes
+          }
+        } else {
+          node.childNode?.splice(indexChild, 1)
+        }
+      }
+      updateNode(node)
+      return
+    }
+    if (
+      newNode.type === NODE_TYPE.ROUTING &&
+      newNode.conditionNodes?.length === 1
+    ) {
+      if (typeof indexChild === 'number' && typeof index === 'number') {
+        node.childNode?.splice(indexChild, 1)
+        if (newNode.childNode) {
+          node.childNode = [...node.childNode!, ...newNode.childNode]
+        }
+      } else {
+        node.childNode = newNode.childNode
+      }
+      updateNode(node)
+      return
+    }
     if (typeof index === 'number') {
       const { conditionNodes } = node
       if (conditionNodes && conditionNodes.length) {
@@ -54,6 +92,19 @@ const Flow: React.FC<Props> = ({ node, updateNode }) => {
       })
       updateNode(node)
     }
+  }
+
+  const deleteNode = () => {
+    updateNode(node.childNode ? { ...node.childNode[0] } : null)
+  }
+
+  const deleteCondition = (index: number) => {
+    node.conditionNodes?.splice(index, 1)
+    node.conditionNodes?.map((item, index) => {
+      item.priorityLevel = index + 1
+      item.nodeName = `Condition ${index + 1}`
+    })
+    updateNode(node)
   }
 
   const renderConditionChild = (nodes: NodeConfig[] | null, index: number) => {
@@ -120,6 +171,9 @@ const Flow: React.FC<Props> = ({ node, updateNode }) => {
                 name={node.nodeName}
                 placeholder={placeHolders[node.type]}
                 bgColor={bgColors[node.type]}
+                {...(node.type !== NODE_TYPE.INITIATOR && {
+                  onDelete: deleteNode,
+                })}
               />
             </div>
             <AddNode
@@ -142,11 +196,12 @@ const Flow: React.FC<Props> = ({ node, updateNode }) => {
                         <div className="condition-node-box-wrap">
                           <div className="condition-node-box">
                             <Card
+                              key={index}
                               name={item.nodeName}
                               bgColor={bgColors[item.type]}
                               titleColor="#2eb795"
                               placeholder={placeHolders[item.type]}
-                              key={index}
+                              onDelete={() => deleteCondition(index)}
                             />
                           </div>
                           <AddNode
@@ -189,6 +244,7 @@ const Flow: React.FC<Props> = ({ node, updateNode }) => {
 
   const renderChildren = () => {
     if (!node.childNode) return null
+    if (node.childNode.length === 0) return null
     if (node.childNode?.length === 1) {
       return <Flow node={node.childNode[0]} updateNode={updateChildNode} />
     }

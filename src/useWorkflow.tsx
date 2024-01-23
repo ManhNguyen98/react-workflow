@@ -6,7 +6,7 @@ import { updateObject } from './utils'
 
 interface StateContextType extends WorkFlow {}
 interface ControlContextType {
-  updateNode: (node: NodeConfig) => void
+  updateNode: (node: NodeConfig | null) => void
 }
 
 const StateContext = createContext<StateContextType>({})
@@ -18,7 +18,7 @@ interface Props {
 
 function reducer(
   state: WorkFlow,
-  action: { type: string; payload: NodeConfig | undefined }
+  action: { type: string; payload: NodeConfig | null }
 ) {
   switch (action.type) {
     case 'update_node': {
@@ -32,7 +32,7 @@ export const WorkflowProvider: React.FC<Props> = ({ children }) => {
   const [state, dispatch] = useReducer(reducer, WF_INIT_DATA)
 
   const methods = {
-    updateNode: (node: NodeConfig) =>
+    updateNode: (node: NodeConfig | null) =>
       dispatch({ type: 'update_node', payload: node }),
   }
 

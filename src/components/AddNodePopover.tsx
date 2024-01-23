@@ -5,6 +5,7 @@ import useCaptureEscKey from '../useCaptureEscKey'
 import { nodeNames } from '../constant'
 
 interface Props {
+  defaultType?: ADD_TYPE | undefined
   isOpen: boolean
   onClose: () => void
   onAddNode: (
@@ -12,9 +13,14 @@ interface Props {
     nodeType: Exclude<NODE_TYPE, NODE_TYPE.CONDITIONS | NODE_TYPE.INITIATOR>
   ) => void
 }
-const AddNodePopover: React.FC<Props> = ({ isOpen, onClose, onAddNode }) => {
+const AddNodePopover: React.FC<Props> = ({
+  defaultType = undefined,
+  isOpen,
+  onClose,
+  onAddNode,
+}) => {
   const ref = useRef(null)
-  const [type, setType] = useState<ADD_TYPE | undefined>(undefined)
+  const [type, setType] = useState<ADD_TYPE | undefined>(defaultType)
 
   const options: Exclude<
     NODE_TYPE,
@@ -28,7 +34,7 @@ const AddNodePopover: React.FC<Props> = ({ isOpen, onClose, onAddNode }) => {
 
   const handleClose = () => {
     onClose()
-    setType(undefined)
+    setType(defaultType)
   }
 
   const renderMenuContent = () => {
@@ -38,7 +44,7 @@ const AddNodePopover: React.FC<Props> = ({ isOpen, onClose, onAddNode }) => {
           key={nodeType}
           onClick={() => {
             onAddNode(type, nodeType)
-            setType(undefined)
+            setType(defaultType)
           }}
         >
           {nodeNames[nodeType]}

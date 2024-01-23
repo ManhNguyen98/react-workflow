@@ -327,3 +327,62 @@
 .bottom-right-cover-line {
   right: -1px;
 }
+
+.card-node-box {
+  width: 100%;
+  border-radius: 8px;
+  cursor: pointer;
+  padding: 4px;
+  z-index: 10;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.card-node-title {
+  text-align: left;
+  font-size: 12px;
+  padding-left: 4px;
+}
+
+.card-select-trigger {
+  background-color: #fff;
+  padding: 2px 4px;
+  border-radius: 4px;
+  position: relative;
+  text-align: left;
+}
+
+.card-select-right {
+  position: absolute;
+  right: 4px;
+  top: 50%;
+  transform: translateY(-50%);
+}
+
+.card-placeholder {
+  color: #C3C7CC;
+  font-size: 10px;
+}
+
+.card-del-btn {
+  position: absolute;
+  right: 4px;
+  top: 4px;
+  width: 16px;
+  height: 16px;
+  border-radius: 16px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.card-del-btn:hover {
+  background-color: #26282C3D;
+}
+.card-del-btn-dark path {
+  fill: #18202A;
+}
+.card-del-btn-dark:hover {
+  background-color: #091F340A;
+}

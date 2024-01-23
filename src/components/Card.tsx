@@ -1,5 +1,6 @@
 import React from 'react'
 import { EmptyType } from '../type'
+import clsx from 'clsx'
 
 interface Props {
   name: EmptyType<string>
@@ -9,6 +10,7 @@ interface Props {
   bgColor?: string
   titleColor?: string
   error?: boolean
+  onDelete?: () => void
 }
 
 const Card: React.FC<Props> = ({
@@ -17,24 +19,29 @@ const Card: React.FC<Props> = ({
   placeholder,
   bgColor = '#a9b4cd',
   titleColor = '#fff',
+  onDelete,
 }) => {
+  const deletable = typeof onDelete === 'function'
+
+  const handleDelete = (e: React.MouseEvent) => {
+    e.preventDefault()
+    e.stopPropagation()
+    onDelete?.()
+  }
   return (
     <div
       style={{
         backgroundColor: `${bgColor}`,
       }}
-      className={`bg-[${bgColor}] w-full rounded-md cursor-pointer p-1 hover:shadow-[${bgColor}] hover:shadow-md z-10`}
+      className="card-node-box"
     >
-      <div
-        style={{ color: `${titleColor}` }}
-        className={`px-1 pb-1 text-left text-xs text-[${titleColor}]`}
-      >
+      <div style={{ color: `${titleColor}` }} className="card-node-title">
         {name}
       </div>
-      <div className="bg-white px-1 py-0.5 text-left text-xs rounded-sm relative">
+      <div className="card-select-trigger">
         <p className="m-0">{value}</p>
-        <p className="m-0 text-[10px] text-gray-400">{placeholder}</p>
-        <div className="absolute right-1 top-1/2 -translate-y-1/2">
+        <div className="card-placeholder">{placeholder}</div>
+        <div className="card-select-right">
           <svg
             width="12px"
             height="12px"
@@ -47,10 +54,40 @@ const Card: React.FC<Props> = ({
               clipRule="evenodd"
               d="M8.47 5.47a.75.75 0 0 1 1.06 0l6 6a.75.75 0 0 1 0 1.06l-6 6a.75.75 0 0 1-1.06-1.06L13.94 12 8.47 6.53a.75.75 0 0 1 0-1.06Z"
               fill="#18202A"
-            ></path>
+            />
           </svg>
         </div>
       </div>
+      {deletable && (
+        <button
+          type="button"
+          className={clsx(
+            'card-del-btn',
+            bgColor === '#fff' ? 'card-del-btn-dark' : ''
+          )}
+          onClick={handleDelete}
+        >
+          <svg
+            width="12px"
+            height="12px"
+            xmlns="http://www.w3.org/2000/svg"
+            viewBox="0 0 24 24"
+          >
+            <path
+              fillRule="evenodd"
+              clipRule="evenodd"
+              d="M19.707 4.293a1 1 0 0 1 0 1.414l-14 14a1 1 0 0 1-1.414-1.414l14-14a1 1 0 0 1 1.414 0Z"
+              fill="#fff"
+            />
+            <path
+              fillRule="evenodd"
+              clipRule="evenodd"
+              d="M4.293 4.293a1 1 0 0 1 1.414 0l14 14a1 1 0 0 1-1.414 1.414l-14-14a1 1 0 0 1 0-1.414Z"
+              fill="#fff"
+            />
+          </svg>
+        </button>
+      )}
     </div>
   )
 }

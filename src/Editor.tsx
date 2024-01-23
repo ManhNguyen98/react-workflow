@@ -7,6 +7,7 @@ import { useWorkflowControls, useWorkflowState } from './useWorkflow'
 const Editor = () => {
   const { size } = useEditor()
   const { nodeConfig } = useWorkflowState()
+  console.log('🚀 ~ Editor ~ nodeConfig:', nodeConfig)
   const { updateNode } = useWorkflowControls()
 
   return (

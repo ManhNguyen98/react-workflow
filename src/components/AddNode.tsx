@@ -11,6 +11,7 @@ interface Props {
 
 const AddNode: React.FC<Props> = ({ root, childNode, updateNode }) => {
   const [isOpenMenu, setIsOpenMenu] = useState(false)
+  const isEmptyChild = !childNode || !childNode.length
 
   const handleSelectNode = (
     type: ADD_TYPE,
@@ -117,6 +118,7 @@ const AddNode: React.FC<Props> = ({ root, childNode, updateNode }) => {
           </svg>
         </button>
         <AddNodePopover
+          defaultType={isEmptyChild ? ADD_TYPE.Sequential : undefined}
           isOpen={isOpenMenu}
           onClose={() => setIsOpenMenu(false)}
           onAddNode={handleSelectNode}
