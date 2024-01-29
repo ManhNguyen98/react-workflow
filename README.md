@@ -1,30 +1,27 @@
-# React + TypeScript + Vite
+# React Workflow
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+### Screenshots:
 
-Currently, two official plugins are available:
+![screencapture-elaborate-paprenjak-c71318-netlify-app-2024-01-29-11_03_46](https://github.com/ManhNguyen98/react-workflow/assets/36062588/a93718ba-34e6-4ea2-b507-26e20f6b1981)
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+Online demo: https://elaborate-paprenjak-c71318.netlify.app/
 
-## Expanding the ESLint configuration
+:warning: **Project Under Construction**
 
-If you are developing a production application, we recommend updating the configuration to enable type aware lint rules:
+This project is currently under construction and may have various issues. Please be aware of the following:
 
-- Configure the top-level `parserOptions` property like this:
+- Some features may be incomplete or not fully functional.
+- The codebase is actively being developed, and changes may occur frequently.
+- Documentation might be incomplete or subject to updates.
 
-```js
-export default {
-  // other rules...
-  parserOptions: {
-    ecmaVersion: 'latest',
-    sourceType: 'module',
-    project: ['./tsconfig.json', './tsconfig.node.json'],
-    tsconfigRootDir: __dirname,
-  },
-}
-```
+**How to Contribute:**
 
-- Replace `plugin:@typescript-eslint/recommended` to `plugin:@typescript-eslint/recommended-type-checked` or `plugin:@typescript-eslint/strict-type-checked`
-- Optionally add `plugin:@typescript-eslint/stylistic-type-checked`
-- Install [eslint-plugin-react](https://github.com/jsx-eslint/eslint-plugin-react) and add `plugin:react/recommended` & `plugin:react/jsx-runtime` to the `extends` list
+- If you encounter issues, please report them in the [Issues](https://github.com/ManhNguyen98/react-workflow/issues) section.
+- Contributions, including bug fixes and feature enhancements, are welcome.
+
+**Disclaimer:**
+
+- Use the project at your own risk during this construction phase.
+- We appreciate your understanding and patience as we work towards improving and stabilizing the project.
+
+Thank you for your cooperation! :construction:
